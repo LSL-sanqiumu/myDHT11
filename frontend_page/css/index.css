@@ -1,0 +1,57 @@
+@font-face {
+    font-family: 'iconfont';
+    src: 
+         url('../font/iconfont.woff2') format('woff2'),
+         url('../font/iconfont.woff') format('woff'),
+         url('../font/iconfont.ttf') format('truetype');
+}
+.iconfont {
+    font-family: "iconfont" !important;
+    font-size: 16px;
+    font-style: normal;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+.main {
+    width: 60%;
+    margin: 0 auto;
+   
+}
+.main .box {
+    margin-top: 2rem;
+    width: 48%;
+    height: 3rem;
+    float: left;
+    border-radius: .5rem;
+    background-color: #fff;
+}
+.main div:first-child,
+.main div:last-child {
+    margin-right: 2%;
+}
+
+.main .box h3 {
+    margin: .4rem 0 0 .8rem;
+    font-size: .3rem;
+    font-weight: 400;
+}
+.main .box .messBox {
+    display: inline-block;
+    margin-left: .2rem;
+    font-size: .6rem;
+}
+/* .main .box .messBox p {
+    display: inline-block;
+
+} */
+.main .box p span:nth-child(1) {
+    display: inline-block;
+    margin-left: .6rem;
+    font-size: 1rem;
+}
+.main .box p span:nth-child(2) {
+    display: inline-block;
+    margin-left: .6rem;
+    text-align: center;
+    font-size: .6rem;
+}

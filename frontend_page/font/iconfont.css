@@ -1,0 +1,41 @@
+@font-face {
+  font-family: "iconfont"; /* Project id 4257510 */
+  /* Color fonts */
+  src: 
+       url('iconfont.woff2?t=1695038176267') format('woff2'),
+       url('iconfont.woff?t=1695038176267') format('woff'),
+       url('iconfont.ttf?t=1695038176267') format('truetype');
+}
+
+.iconfont {
+  font-family: "iconfont" !important;
+  font-size: 16px;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-shidu:before {
+  content: "\e60d";
+}
+
+.icon-loudianwendu:before {
+  content: "\ea33";
+}
+
+.icon-daqiwendu_mian:before {
+  content: "\e6bd";
+}
+
+.icon-a-45-shiduwendujiankong:before {
+  content: "\e713";
+}
+
+.icon-humidity_fill:before {
+  content: "\e84e";
+}
+
+.icon-shidu-copy:before {
+  content: "\ea34";
+}
+

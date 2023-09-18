@@ -1,0 +1,51 @@
+{
+  "id": "4257510",
+  "name": "dht",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "6677873",
+      "name": "湿度",
+      "font_class": "shidu",
+      "unicode": "e60d",
+      "unicode_decimal": 58893
+    },
+    {
+      "icon_id": "25716512",
+      "name": "露点温度",
+      "font_class": "loudianwendu",
+      "unicode": "ea33",
+      "unicode_decimal": 59955
+    },
+    {
+      "icon_id": "28606919",
+      "name": "大气温度_面",
+      "font_class": "daqiwendu_mian",
+      "unicode": "e6bd",
+      "unicode_decimal": 59069
+    },
+    {
+      "icon_id": "29779638",
+      "name": "湿度温度监测",
+      "font_class": "a-45-shiduwendujiankong",
+      "unicode": "e713",
+      "unicode_decimal": 59155
+    },
+    {
+      "icon_id": "31456307",
+      "name": "湿度_fill",
+      "font_class": "humidity_fill",
+      "unicode": "e84e",
+      "unicode_decimal": 59470
+    },
+    {
+      "icon_id": "37419447",
+      "name": "湿度",
+      "font_class": "shidu-copy",
+      "unicode": "ea34",
+      "unicode_decimal": 59956
+    }
+  ]
+}
