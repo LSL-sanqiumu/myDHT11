@@ -440,6 +440,16 @@
               <FileType>5</FileType>
               <FilePath>.\Hardware\Key.h</FilePath>
             </File>
+            <File>
+              <FileName>Util.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Hardware\Util.c</FilePath>
+            </File>
+            <File>
+              <FileName>Util.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\Hardware\Util.h</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

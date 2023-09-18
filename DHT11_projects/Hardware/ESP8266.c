@@ -4,14 +4,13 @@
 #include "Delay.h"
 #include "ESP8266.h"
 #include "SerialTest.h"
+#include "Util.h"
 
 char buff[BUFF_MAX_SIZE];
 uint16_t buff_index;
 
 uint8_t receive_flag;
 uint8_t buff_init_flag;
-
-char upload_cmd[256] = "AT+MQTTPUB=0,\"DHT11\",\"esp hello\",0,0";
 
 /* PA2-TX  PA3-RX */
 
@@ -281,23 +280,46 @@ void ESP8266_ConnectMQTT(void)
 */
 void ESP8266_Init(void)
 {
-    /* 重启ESP8266 */
-    ESP8266_Restart();
-    /* 连接WiFi */
-    ESP8266_ConnectWiFi();
-    /* 连接MQTT */
-    ESP8266_ConnectMQTT();
+    if(ESP8266_ATIsOK()){
+        SerialTest_SendStrData("ESP8266: AT ===> OK!\n");
+        /* 重启ESP8266 */
+        ESP8266_Restart();
+        /* 连接WiFi */
+        ESP8266_ConnectWiFi();
+        /* 连接MQTT */
+        ESP8266_ConnectMQTT();
+    }
 }
 
-void ESP8266_PublishedData(void)
+void ESP8266_PublishedData(char* data)
 {
     
-    Serial_SendCommand(upload_cmd);
+    Serial_SendCommand(data);
+    SerialTest_SendStrData(data);
+    SerialTest_SendStrData("\n");
+}
+
+void ESP8266_PublishedTempAndHumi(char* upload_cmd,uint8_t temp, uint8_t decimal, uint8_t humi)
+{
+    uint8_t j;
+    char number;
+    for(j = 0; j < 2; j++){
+        number = temp / Serial_Pow(10, 2 - j - 1) % 10 + '0';
+        upload_cmd[34 + j] = number;
+    }
+    upload_cmd[37] = decimal / Serial_Pow(10, 0) % 10 + '0';
+    for(j = 0; j < 2; j++){
+        number = humi / Serial_Pow(10, 2 - j - 1) % 10 + '0';
+        upload_cmd[53 + j] = number;
+    }
+            
+    ESP8266_PublishedData(upload_cmd);
+    
 }
 
 void test(void)
 {
     ESP8266_Init();
-    ESP8266_PublishedData();
+//    ESP8266_PublishedData();
 }
 

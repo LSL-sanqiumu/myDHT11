@@ -8,6 +8,7 @@
 #include "Timer.h"
 #include "string.h"
 #include "Key.h"
+#include "Util.h"
 
 uint8_t temp;
 uint8_t humi;
@@ -18,6 +19,18 @@ extern uint8_t receive_flag;
 
 char wifi_name[128] = "quiet";
 char wifi_passwd[64] = "19990903"; /* 密码最长为63字节ASCII码 */
+
+//char upload_cmd[256] = "AT+MQTTPUB=0,\"MyMsg\",\"{\\\"temp\\\":\\\"36\\\",\\\"humi\\\":\\\"66.0\\\"}\",0,0";
+char upload_cmd[256] = "AT+MQTTPUB=0,\"MyMsg\",\"{\\\"temp\\\":\\\"36\\\"\\,\\\"humi\\\":\\\"66.0\\\"}\",0,0";
+/*  */
+char upload_cmd2[256] = 
+{'A','T','+','M','Q','T','T','P','U','B','=','0',',',
+'"','M','y','M','s','g','"',',',
+'"','{','\\','"','t','e','m','p','\\','"',':','\\','"','3','6','.','0','\\','"','\\',',',
+'\\','"','h','u','m','i','\\','"',':','\\','"','6','6','\\','"','}','"',',',
+'0',',','0',
+'\0'
+};
 
 int main(void)
 {
@@ -33,9 +46,9 @@ int main(void)
     OLED_ShowString(3, 9, "%");
 	ESP8266_SerialInit();
 	SerialTest_Init();
-	SerialTest_SendStrData("DHT11 init\n");
+	SerialTest_SendStrData("hardware init finish!\n");
     
-    test();
+    ESP8266_Init();
     
 	while(1){
 		if(DHT11_GetData(&temp, &humi, &decimal)){
@@ -44,26 +57,26 @@ int main(void)
 			OLED_ShowNum(3,7,humi,2);
 		}
 		if(Key_Scan(GPIOA, GPIO_Pin_8)){
-			Serial_SendCommand(AT);
-            test();
+            uint8_t j;
+            char number;
+            for(j = 0; j < 2; j++){
+                number = temp / Serial_Pow(10, 2 - j - 1) % 10 + '0';
+                upload_cmd2[34 + j] = number;
+            }
+            upload_cmd2[37] = decimal / Serial_Pow(10, 0) % 10 + '0';
+            for(j = 0; j < 2; j++){
+                number = humi / Serial_Pow(10, 2 - j - 1) % 10 + '0';
+                upload_cmd2[53 + j] = number;
+            }
+            
+            ESP8266_PublishedData(upload_cmd2);
+//            SerialTest_SendStrData(upload_cmd);
+//            SerialTest_SendStrData("\n");
+//            SerialTest_SendStrData(upload_cmd2);
 		}
-//		if(receive_flag == 1){
-//            if(strstr(buff,"ERROR")){
-//                OLED_ShowString(4, 1, "ERROR!");
-//            }else if (strstr(buff,"OK")){
-//                OLED_ShowString(4, 1, "      ");
-//                OLED_ShowString(4, 1, "OK!");
-//            }
-//			receive_flag = 0;
-//			SerialTest_SendStrData(buff);
-//		}
-		DHT11_GetData(&temp, &humi, &decimal);
-		OLED_ShowNum(2,7,temp,2);
-		OLED_ShowNum(2,10,decimal,1);
-		OLED_ShowNum(3,7,humi,2);
-		
-
+//        Delay_ms(500);
+//        ESP8266_PublishedTempAndHumi(upload_cmd2,temp,decimal,humi);
+//        Delay_ms(1000);
+//        ESP8266_PublishedData(upload_cmd);
 	}
-	
-
 }

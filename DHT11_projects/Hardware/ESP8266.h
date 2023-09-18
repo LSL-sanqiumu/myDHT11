@@ -43,13 +43,19 @@
 #define MQTT_CONNECT       "AT+MQTTCONN=0,\"175.178.181.190\",1883,0"
 #define MQTT_DISCONNECT    "AT+MQTTCLEAN=0" /* 断开与MQTT服务器的连接 */
 /* AT+MQTTPUB=<LinkID>,<"topic">,<"data">,<qos>,<retain> 向主题topic发送数据data，注意该命令不会发送'\0' */
-#define MQTT_PUBLISH_STR   "AT+MQTTPUB=0,\"MyMsg\",\"esp hello\",0,0" /*  */
+#define MQTT_PUBLISH_STR   "AT+MQTTPUB=0,\"MyMsg\",\"{\\\"esp\\\":\\\"36\\\"}\",0,0" /*  */
 #define MQTT_QUERY_STATE   "AT+MQTTCONN?"
 
 void ESP8266_SerialInit(void);
 void Serial_SendData(uint16_t data);
 void Serial_SendStrData(char* str);
 void Serial_SendCommand(char* cmd);
+
+void ESP8266_Init(void);
+
+void ESP8266_PublishedData(char* data);
+
+void ESP8266_PublishedTempAndHumi(char* upload_cmd,uint8_t temp, uint8_t decimal, uint8_t humi);
 
 void test(void);
 
