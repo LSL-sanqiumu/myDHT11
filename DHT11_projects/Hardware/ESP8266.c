@@ -270,6 +270,14 @@ void ESP8266_ConnectMQTT(void)
     }
 //    SerialTest_SendStrData("ESP8266: MQTT connected!\n");
 }
+void ESP8266_ReceiveTopicData(void)
+{
+    if(receive_flag == 1){
+            receive_flag = 0;
+            SerialTest_SendStrData(buff);
+            SerialTest_SendStrData("\n");
+        }
+}
 
 /*
 **********************************************************
@@ -288,6 +296,10 @@ void ESP8266_Init(void)
         ESP8266_ConnectWiFi();
         /* 连接MQTT */
         ESP8266_ConnectMQTT();
+        /* 订阅主题 MQTT_SUBSCRIBE_TOPIC */
+//        Serial_SendCommand(MQTT_DISCONNECT);
+//        Delay_ms(100);
+  
     }
 }
 
@@ -314,7 +326,7 @@ void ESP8266_PublishedTempAndHumi(char* upload_cmd,uint8_t temp, uint8_t decimal
     }
             
     ESP8266_PublishedData(upload_cmd);
-    
+    Delay_ms(100);
 }
 
 void test(void)

@@ -14,15 +14,21 @@ uint8_t temp;
 uint8_t humi;
 uint8_t decimal;
 
+uint8_t old_temp;
+uint8_t old_humi;
+uint8_t old_decimal;
+
 extern char buff[BUFF_MAX_SIZE];
 extern uint8_t receive_flag;
+
+extern uint8_t send_data_start;
 
 char wifi_name[128] = "quiet";
 char wifi_passwd[64] = "19990903"; /* 密码最长为63字节ASCII码 */
 
 //char upload_cmd[256] = "AT+MQTTPUB=0,\"MyMsg\",\"{\\\"temp\\\":\\\"36\\\",\\\"humi\\\":\\\"66.0\\\"}\",0,0";
 char upload_cmd[256] = "AT+MQTTPUB=0,\"MyMsg\",\"{\\\"temp\\\":\\\"36\\\"\\,\\\"humi\\\":\\\"66.0\\\"}\",0,0";
-/*  */
+/* 可重写printf来格式化指令 */
 char upload_cmd2[256] = 
 {'A','T','+','M','Q','T','T','P','U','B','=','0',',',
 '"','M','y','M','s','g','"',',',
@@ -34,10 +40,11 @@ char upload_cmd2[256] =
 
 int main(void)
 {
-    NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2);
+    NVIC_PriorityGroupConfig(NVIC_PriorityGroup_4);
     OLED_Init();
 	DHT11_Init();
     TIM2_Init();
+    TIM3_Init();
     Key_Init();
     OLED_ShowString(1, 1, "DHT11&ESP8266");
     OLED_ShowString(2, 1, "temp:");
@@ -49,7 +56,6 @@ int main(void)
 	SerialTest_SendStrData("hardware init finish!\n");
     
     ESP8266_Init();
-    
 	while(1){
 		if(DHT11_GetData(&temp, &humi, &decimal)){
 			OLED_ShowNum(2,7,temp,2);
@@ -70,12 +76,26 @@ int main(void)
             }
             
             ESP8266_PublishedData(upload_cmd2);
-//            SerialTest_SendStrData(upload_cmd);
-//            SerialTest_SendStrData("\n");
-//            SerialTest_SendStrData(upload_cmd2);
 		}
-//        Delay_ms(500);
-//        ESP8266_PublishedTempAndHumi(upload_cmd2,temp,decimal,humi);
+        
+        TIM_Cmd(TIM3, ENABLE);
+        if(send_data_start == 1){
+            send_data_start = 0;
+//            if((old_temp != temp) || (old_decimal != decimal) || (old_humi != humi)){
+//                ESP8266_PublishedTempAndHumi(upload_cmd2,temp,decimal,humi);
+//            }
+//            old_temp = temp;
+//            old_decimal = decimal;
+//            old_humi = humi;
+            ESP8266_PublishedTempAndHumi(upload_cmd2,temp,decimal,humi);
+            if(receive_flag == 1){
+                receive_flag = 0;
+                if(ESP8266_HasTargetInfo("ERROR")){
+                    ESP8266_Init();
+                }
+                SerialTest_SendStrData(buff);
+            }
+        }
 //        Delay_ms(1000);
 //        ESP8266_PublishedData(upload_cmd);
 	}

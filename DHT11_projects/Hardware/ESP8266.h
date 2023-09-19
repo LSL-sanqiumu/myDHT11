@@ -38,13 +38,14 @@
 /** AT指令- MQTT-AT指令 **/
 /* 用户属性设置 */
 #define MQTT_SET_USER_ATTR "AT+MQTTUSERCFG=0,1,\"ESP826601S\",\
-\"admin\",\"liangMQTT19990903.\",0,0,\"\"" 
+\"admin\",\"isMQTT20230919\",0,0,\"\"" 
 /* 设置为不自动重连，当MQTT断开后需要先 执行MQTT_DISCONNECT再执行MQTT_SET_USER_ATTR和MQTT_CONNECT*/
 #define MQTT_CONNECT       "AT+MQTTCONN=0,\"175.178.181.190\",1883,0"
 #define MQTT_DISCONNECT    "AT+MQTTCLEAN=0" /* 断开与MQTT服务器的连接 */
 /* AT+MQTTPUB=<LinkID>,<"topic">,<"data">,<qos>,<retain> 向主题topic发送数据data，注意该命令不会发送'\0' */
 #define MQTT_PUBLISH_STR   "AT+MQTTPUB=0,\"MyMsg\",\"{\\\"esp\\\":\\\"36\\\"}\",0,0" /*  */
 #define MQTT_QUERY_STATE   "AT+MQTTCONN?"
+#define MQTT_SUBSCRIBE_TOPIC "AT+MQTTSUB=0,\"ConnectedFlag\",1"
 
 void ESP8266_SerialInit(void);
 void Serial_SendData(uint16_t data);
@@ -57,6 +58,9 @@ void ESP8266_PublishedData(char* data);
 
 void ESP8266_PublishedTempAndHumi(char* upload_cmd,uint8_t temp, uint8_t decimal, uint8_t humi);
 
+void ESP8266_ReceiveTopicData(void);
+
+uint8_t ESP8266_HasTargetInfo(char* info);
 void test(void);
 
 #endif

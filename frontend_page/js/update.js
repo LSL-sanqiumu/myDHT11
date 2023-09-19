@@ -26,13 +26,13 @@ client.on('connect', () => {
     // 订阅多个主题
     client.subscribe(
         ['test','MyMsg'], // 订阅主题，可以订阅多个
-        { qos: 1 },  
+        { qos: 0 },  
         (err) => {
             console.log(err || '订阅成功')
         },
     );
-    // 往主题“tourist_enter”发布消息
-    client.publish('tourist_enter', 'Topic-tourist_enter:Hello EMQX,我连接上了', 
+    // 往主题“ReturnData”发布消息
+    client.publish('ConnectedFlag', '{NewConnect}', 
     (err) => {
         console.log(err || '发布成功')
     })
