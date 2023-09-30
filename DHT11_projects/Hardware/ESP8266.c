@@ -69,6 +69,9 @@ void Serial_SendCommand(char* cmd)
 	Serial_SendData('\n');
     Delay_ms(20);
 }
+
+
+
 void USART2_IRQHandler(void)
 {
 	static uint16_t index = 0;
@@ -273,10 +276,10 @@ void ESP8266_ConnectMQTT(void)
 void ESP8266_ReceiveTopicData(void)
 {
     if(receive_flag == 1){
-            receive_flag = 0;
-            SerialTest_SendStrData(buff);
-            SerialTest_SendStrData("\n");
-        }
+        receive_flag = 0;
+        SerialTest_SendStrData(buff);
+        SerialTest_SendStrData("\n");
+    }
 }
 
 /*

@@ -56,6 +56,9 @@ int main(void)
 	SerialTest_SendStrData("hardware init finish!\n");
     
     ESP8266_Init();
+    
+//    DHT11_GetData(&old_temp, &old_humi, &old_decimal);
+    
 	while(1){
 		if(DHT11_GetData(&temp, &humi, &decimal)){
 			OLED_ShowNum(2,7,temp,2);
@@ -96,7 +99,5 @@ int main(void)
                 SerialTest_SendStrData(buff);
             }
         }
-//        Delay_ms(1000);
-//        ESP8266_PublishedData(upload_cmd);
 	}
 }
