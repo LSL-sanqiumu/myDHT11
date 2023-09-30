@@ -4,15 +4,14 @@
 #include "FreeRTOS.h"
 #include "task.h"
 
-static void STM32F103_Init(void)
+static void STM32F103_HardwareInit(void)
 {
 	NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2);
 }
 
 int main(void) 
 {
-	while(1){
-
-	}
+    STM32F103_HardwareInit();
+	while(1);
 }
 
