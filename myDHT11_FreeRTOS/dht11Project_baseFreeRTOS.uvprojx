@@ -336,7 +336,7 @@
               <MiscControls></MiscControls>
               <Define>USE_STDPERIPH_DRIVER</Define>
               <Undefine></Undefine>
-              <IncludePath>.\FreeRTOS\include;.\FreeRTOS\portable;.\Hardware;.\Library;.\Start;.\System;.\User</IncludePath>
+              <IncludePath>.\FreeRTOS\include;.\FreeRTOS\portable;.\Hardware;.\Library;.\Start;.\System;.\User;.\Util</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -715,6 +715,16 @@
               <FileType>5</FileType>
               <FilePath>.\System\Delay.h</FilePath>
             </File>
+            <File>
+              <FileName>MyDelay.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\System\MyDelay.c</FilePath>
+            </File>
+            <File>
+              <FileName>MyDelay.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\System\MyDelay.h</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -734,6 +744,46 @@
               <FileName>OLED_Font.h</FileName>
               <FileType>5</FileType>
               <FilePath>.\Hardware\OLED_Font.h</FilePath>
+            </File>
+            <File>
+              <FileName>DHT11.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Hardware\DHT11.c</FilePath>
+            </File>
+            <File>
+              <FileName>DHT11.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\Hardware\DHT11.h</FilePath>
+            </File>
+            <File>
+              <FileName>ESP8266.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Hardware\ESP8266.c</FilePath>
+            </File>
+            <File>
+              <FileName>ESP8266.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\Hardware\ESP8266.h</FilePath>
+            </File>
+            <File>
+              <FileName>SerialLog.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Hardware\SerialLog.c</FilePath>
+            </File>
+            <File>
+              <FileName>SerialLog.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\Hardware\SerialLog.h</FilePath>
+            </File>
+            <File>
+              <FileName>Timer.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Hardware\Timer.c</FilePath>
+            </File>
+            <File>
+              <FileName>Timer.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\Hardware\Timer.h</FilePath>
             </File>
           </Files>
         </Group>
@@ -764,6 +814,21 @@
               <FileName>stm32f10x_it.h</FileName>
               <FileType>5</FileType>
               <FilePath>.\User\stm32f10x_it.h</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>Util</GroupName>
+          <Files>
+            <File>
+              <FileName>Math_Util.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Util\Math_Util.c</FilePath>
+            </File>
+            <File>
+              <FileName>Math_Util.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\Util\Math_Util.h</FilePath>
             </File>
           </Files>
         </Group>
