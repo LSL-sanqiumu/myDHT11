@@ -43,24 +43,26 @@ static void STM32F103_HardwareInit(void)
 #define ESP8266_InitTask_StackDepth 512
 #define ESP8266_DataUploadTask_StackDepth 512
 
-#define DHT11_DataReadTask_Priority 3
+#define DHT11_DataReadTask_Priority 2
 #define OLED_DataShowTask_Priority 3
 #define ESP8266_InitTask_Priority 4
-#define ESP8266_DataUploadTask_Priority 2
+#define ESP8266_DataUploadTask_Priority 3
 
 #define DHT11Data_Queue_LEN 3
 #define DHT11Data_Queue_SIZE 1
 
 QueueHandle_t DHT11Data_Queue = NULL;
-
 QueueHandle_t TempData_Queue = NULL;
 QueueHandle_t DecimalData_Queue = NULL;
 QueueHandle_t HumiData_Queue = NULL;
 
+SemaphoreHandle_t Upload_Sem = NULL;
+
 EventGroupHandle_t Event_Handle = NULL;
+
+
 /* 定义两个事件 */
 #define ESP8266Init_EVENT (0x01 << 0) // 位0
-#define DataUpload_EVENT (0x01 << 1) // 位1
 
 void DHT11_DataReadTask(void);
 void OLED_DataShowTask(void);
@@ -94,6 +96,8 @@ int main(void)
     TempData_Queue = xQueueCreate(1, 1);
     DecimalData_Queue = xQueueCreate(1, 1);
     HumiData_Queue = xQueueCreate(1, 1);
+    
+    Upload_Sem = xSemaphoreCreateBinary();
     
     Event_Handle = xEventGroupCreate();
     xEventGroupSetBits(Event_Handle, ESP8266Init_EVENT);
@@ -149,7 +153,8 @@ void DHT11_DataReadTask(void)
             xQueueSend(TempData_Queue, &temp, portMAX_DELAY);
             xQueueSend(DecimalData_Queue, &decimal, portMAX_DELAY);
             xQueueSend(HumiData_Queue, &humi, portMAX_DELAY);
-            xEventGroupSetBits(Event_Handle, DataUpload_EVENT);
+            
+            xSemaphoreGive(Upload_Sem);
         }
         vTaskDelay(20);
     }
@@ -192,15 +197,15 @@ void ESP8266_InitTask(void)
 }
 void ESP8266_DataUploadTask(void)
 {
+    BaseType_t xReturn = pdPASS;
     uint8_t temp = 0;
     uint8_t decimal = 0;
     uint8_t humi = 0;
-    EventBits_t r_event;
     while(1){
-        r_event = xEventGroupWaitBits(Event_Handle, DataUpload_EVENT,
-            pdTRUE, pdTRUE, portMAX_DELAY);
         
-        if((r_event & (DataUpload_EVENT)) == DataUpload_EVENT){
+        xReturn = xSemaphoreTake(Upload_Sem, portMAX_DELAY);
+        
+        if(xReturn == pdPASS){
             
             xQueueReceive(TempData_Queue, &temp, portMAX_DELAY);
             xQueueReceive(DecimalData_Queue, &decimal, portMAX_DELAY);
