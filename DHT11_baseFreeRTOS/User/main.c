@@ -153,10 +153,9 @@ void DHT11_DataReadTask(void)
             xQueueSend(TempData_Queue, &temp, portMAX_DELAY);
             xQueueSend(DecimalData_Queue, &decimal, portMAX_DELAY);
             xQueueSend(HumiData_Queue, &humi, portMAX_DELAY);
-            
             xSemaphoreGive(Upload_Sem);
         }
-        vTaskDelay(20);
+        vTaskDelay(10);
     }
 }
 void OLED_DataShowTask(void)
@@ -179,7 +178,7 @@ void OLED_DataShowTask(void)
             OLED_ShowNum(3,7,receive_buff,2);
         }
         
-        vTaskDelay(20);
+        vTaskDelay(10);
     }
 }
 
@@ -221,8 +220,8 @@ void ESP8266_DataUploadTask(void)
                 SerialLog_SendStrData(buff);
             }    
         }
-        
-        vTaskDelay(1000);
+        MyDelay_xms(1000);
+        vTaskDelay(10);
     }
 }
 
